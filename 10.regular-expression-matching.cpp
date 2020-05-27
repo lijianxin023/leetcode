@@ -6,12 +6,33 @@
 
 // @lc code=start
 
-// first AC
+
 class Solution {
 public:
+    // worth review
+    bool isMatch(string s, string p) {
+        const int s_len = s.size(),p_len = p.size();
+        vector<bool> res (p_len+1,false);
+        for(int i = 0;i <= s_len;++i){
+            bool pre = res[0];
+            res[0] = !i;
+            for(int j = 1;j <= p_len;++j){
+                bool temp = res[j];
+                if(p[j-1]=='*')
+                    res[j] = res[j-2] || (i && res[j] && (p[j-2] == s[i-1] || p[j-2]== '.'));
+                else res[j] = i && pre && (p[j-1] == s[i-1] || p[j-1]=='.'); 
+                pre = temp;
+            }
+        }
+        return res[p_len];
+    }
+
+
+
+//first AC too slow
+/*
     bool isMatch(string s, string p) {
 
-        
         int s_pos = 0,p_pos = 0;
         bool tag = false;
 
@@ -68,6 +89,7 @@ public:
             tag = true;
         return tag;
     }
+    */
 };
 // @lc code=end
 
